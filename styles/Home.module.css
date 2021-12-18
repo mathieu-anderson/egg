@@ -6,14 +6,20 @@
 
 .eggContainer {
   position: relative;
-  width: 800px;
+  width: 600px;
   height: 600px;
   border: 1px solid black;
 }
 
+.eggContainerDeconstruct {
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+}
+
 .input {
-  width: 600px;
-  font-size: 2rem;
+  width: 450px;
+  font-size: 1.5rem;
 }
 
 .error {
@@ -24,10 +30,10 @@
 
 .e {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  top: -20;
+  right: -20;
+  bottom: -20;
+  left: -20;
   margin: auto;
   border: 1px solid black;
   border-radius: 80% 45% 65% 60%;
@@ -40,10 +46,10 @@
 
 .gg {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  top: -20;
+  right: -20;
+  bottom: -20;
+  left: -20;
   margin: auto;
   border-radius: 80% 50% 65% 45%;
   width: 50px;
@@ -53,4 +59,34 @@
   z-index: 2;
   transition: opacity 0.5s;
   cursor: crosshair;
+}
+
+.deconstruct {
+  position: relative;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  margin: 5px;
+}
+
+.hideLayer {
+  opacity: 0.4;
+}
+
+.footer {
+  width: 600px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.deconstructButton {
+  transition: letter-spacing 0.3s;
+  letter-spacing: 0px;
+}
+
+.deconstructed {
+  transition: letter-spacing 0.3s;
+  letter-spacing: 5px;
 }

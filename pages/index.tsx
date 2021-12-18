@@ -6,6 +6,7 @@ interface Offset {
   bottom: number;
   left: number;
   zIndex: number;
+  deconstruct: boolean;
 }
 
 const randomIntFromInterval = (min: number, max: number) => {
@@ -13,7 +14,7 @@ const randomIntFromInterval = (min: number, max: number) => {
 };
 
 const getRandomInputValue = () => {
-  const length = randomIntFromInterval(1, 25);
+  const length = randomIntFromInterval(1, 20);
   let inputValue = '';
   for (let i = 0; i < length; i++) {
     inputValue += randomIntFromInterval(1, 2) === 1 ? 'e' : 'gg';
@@ -44,27 +45,31 @@ const getLayers = (value: string) => {
   return layers;
 };
 
-const E: React.FC<Offset> = ({ bottom, left, zIndex }) => {
-  const [hide, setHide] = useState<0 | undefined>(undefined);
+const E: React.FC<Offset> = ({ bottom, left, zIndex, deconstruct }) => {
+  const [hide, setHide] = useState(false);
   return (
     <div
-      className={styles.e}
-      style={{ bottom, left, zIndex, opacity: hide }}
-      onMouseEnter={() => setHide(0)}
-      onMouseLeave={() => setHide(undefined)}
+      className={`${styles.e} ${hide ? styles.hideLayer : undefined} ${
+        deconstruct ? styles.deconstruct : undefined
+      }`}
+      style={{ bottom, left, zIndex }}
+      onMouseEnter={() => setHide(true)}
+      onMouseLeave={() => setHide(false)}
     />
   );
 };
 
-const Gg: React.FC<Offset> = ({ bottom, left, zIndex }) => {
-  const [hide, setHide] = useState<0 | undefined>(undefined);
+const Gg: React.FC<Offset> = ({ bottom, left, zIndex, deconstruct }) => {
+  const [hide, setHide] = useState(false);
 
   return (
     <div
-      className={styles.gg}
-      style={{ bottom, left, zIndex, opacity: hide }}
-      onMouseEnter={() => setHide(0)}
-      onMouseLeave={() => setHide(undefined)}
+      className={`${styles.gg} ${hide ? styles.hideLayer : undefined} ${
+        deconstruct ? styles.deconstruct : undefined
+      }`}
+      style={{ bottom, left, zIndex }}
+      onMouseEnter={() => setHide(true)}
+      onMouseLeave={() => setHide(false)}
     />
   );
 };
@@ -72,6 +77,7 @@ const Gg: React.FC<Offset> = ({ bottom, left, zIndex }) => {
 const Home: NextPage = () => {
   const [inputValue, setInputValue] = useState('egg');
   const [error, setError] = useState('');
+  const [deconstruct, setDeconstruct] = useState(false);
 
   return (
     <div className={styles.container}>
@@ -102,21 +108,53 @@ const Home: NextPage = () => {
         {error !== '' ? `There is no "${error}" in "egg"` : null}
       </div>
 
-      <div className={styles.eggContainer}>
+      <div
+        className={`${styles.eggContainer} ${
+          deconstruct ? styles.eggContainerDeconstruct : undefined
+        }`}
+      >
         {getLayers(inputValue).map((el, index) => {
           if (el === 'e') {
             return (
-              <E bottom={index * 20} left={index * 20} zIndex={index * 20} />
+              <E
+                bottom={index * 20}
+                left={index * 20}
+                zIndex={index * 20}
+                deconstruct={deconstruct}
+              />
             );
           } else
             return (
-              <Gg bottom={index * 20} left={index * 20} zIndex={index * 20} />
+              <Gg
+                bottom={index * 20}
+                left={index * 20}
+                zIndex={index * 20}
+                deconstruct={deconstruct}
+              />
             );
         })}
       </div>
-      <a href="https://twitter.com/vickiheart/status/1471917945630515205">
-        Source
-      </a>
+      <footer className={styles.footer}>
+        <div>
+          <a href="https://twitter.com/vickiheart/status/1471917945630515205">
+            Inspiration
+          </a>{' '}
+          <a href="https://github.com/mathieu-anderson/egg">Source</a>
+        </div>
+        <div
+          className={`${deconstruct ? styles.deconstructed : undefined} ${
+            styles.deconstructButton
+          }`}
+        >
+          <input
+            type="checkbox"
+            id="deconstruct"
+            name="deconstruct"
+            onClick={() => setDeconstruct(!deconstruct)}
+          />
+          <label htmlFor="deconstruct">Deconstruct</label>
+        </div>
+      </footer>
     </div>
   );
 };
